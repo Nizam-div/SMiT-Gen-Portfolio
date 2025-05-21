@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Portfolio Cards UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background: #ffffff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            width: 98%;
+            height: 98vh;
+            margin: 1vh center;
+            position: relative;
+        }
+        
+        .cards {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .card {
+            width: 300px;
+            height: 190px;
+            background: linear-gradient(135deg, #f77e05, #872e01);
+            color: #000;
+            border-radius: 16px;
+            box-shadow: 0 17px 38px -10px rgba(0, 0, 0, 0.55);
+            margin-left: -80px;
+            transform: rotate(-12deg) translateX(200%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.8s ease-in-out;
+            cursor: pointer;
+            z-index: 1;
+        }
+        
+        .card h3 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .card p {
+            font-size: 14px;
+        }
+        
+        .card.show {
+            transform: rotate(-12deg) translateX(0);
+            opacity: 1;
+        }
+        
+        .card.show:hover:not(.active) {
+            opacity: 0.9;
+            box-shadow: 0 12px 24px rgba(207, 104, 0, 0.4), 0 6px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease-in-out;
+            transform: rotate(-9deg) translateX(0);
+        }
+        
+        .card.active {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1.15);
+            width: 500px;
+            height: 350px;
+            background: linear-gradient(135deg, #f77e05, #872e01);
+            color: white;
+            z-index: 999;
+            opacity: 1 !important;
+            border-radius: 16px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease-in-out;
+            overflow: hidden;
+            padding: 25px;
+        }
+        
+        .card.active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient( to right, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            transform: skewX(-20deg);
+            animation: shine 2s;
+            pointer-events: none;
+        }
+        
+        @keyframes shine {
+            0% {
+                left: -75%;
+            }
+            100% {
+                left: 125%;
+            }
+        }
+        
+        .cards.clicked .card:not(.active) {
+            transform: scale(0.75) translateY(-120px) rotate(0deg);
+            margin-left: 10px;
+            margin-top: -220px;
+            opacity: 0.3;
+            transition: all 0.5s ease-in-out;
+        }
+        /* Hover effect for cards behind */
+        
+        .cards.clicked .card:not(.active):hover {
+            opacity: 0.7;
+            transform: scale(0.85) translateY(-120px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            /* transition: all 0.4s ease-in-out; */
+        }
+        
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            background: #222;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            font-size: 14px;
+        }
+        /* selected card content */
+        
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .card-icon i {
+            font-size: 3.2rem;
+            color: #fff;
+            text-shadow: 0 0 10px #f4b804, 0 0 20px #f89602, 0 0 30px #f4b804, 0 0 40px #f89602;
+            animation: bounceOnce 0.8s ease-out 0s 1;
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 8px #f4b804, 0 0 18px #f89602, 0 0 28px #f4b804, 0 0 38px #f89602;
+                transform: scale(1);
+            }
+            50% {
+                text-shadow: 0 0 16px #ffe100, 0 0 28px #ffaa00, 0 0 36px #ffe100, 0 0 50px #ffaa00;
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes bounceOnce {
+            0% {
+                transform: scale(0.8) translateY(-20px);
+                opacity: 0.6;
+            }
+            60% {
+                transform: scale(1.2) translateY(10px);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        
+        .card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+            margin: 10px 0;
+        }
+        
+        .card-description {
+            color: #f8f9fa;
+            font-weight: 500;
+            font-size: 1.05rem;
+            animation: fadeInUp 0.6s ease-in-out;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            padding: 0;
+            list-style: none;
+            justify-content: center;
+        }
+        
+        .card-tags li {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            color: #fff;
+            backdrop-filter: blur(3px);
+        }
+        
+        .card-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #f77e05, #872e01);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Responsive Mobile/Tablet */
+        
+        @media (max-width: 768px) {
+            .cards {
+                flex-direction: column;
+                align-items: center;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+            .card {
+                width: 90%;
+                height: 160px;
+                margin: 10px 0;
+                transform: translateX(100%);
+                /* flex-wrap: wrap; */
+            }
+            .card.show {
+                transform: translateX(0);
+            }
+            .cards.clicked .card:not(.active) {
+                transform: scale(0.7) translateY(-10px) rotate(0deg);
+                margin-left: 0;
+                margin-top: -20px;
+                opacity: 0.6;
+                /* margin-top: 0; */
+            }
+            /* .card:not(.active):hover {
+                opacity: 0.6;
+                transform: scale(70) translateX(76px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                transition: all 0.3s ease;
+                color: #fff;
+            } */
+            .cards.clicked .card:not(.active):hover {
+                opacity: 0.8;
+                transform: scale(0.76);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+                transition: all 0.4s ease-in-out;
+            }
+            .card.active {
+                position: relative;
+                width: 90%;
+                height: 320px;
+                transform: none;
+                top: 0;
+                left: 0;
+                z-index: 5;
+                margin: 20px auto;
+                padding: 20px 15px;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .card-icon i {
+                display: none;
+            }
+            .card-title {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+            .card-description {
+                font-size: 1rem;
+                text-align: center;
+                padding: 5px 10px;
+            }
+            .card-tags {
+                justify-content: center;
+                flex-wrap: wrap;
+                padding: 0;
+                position: relative;
+                top: -20px;
+            }
+            .card-tags li {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+                border-radius: 12px;
+            }
+            .card-btn {
+                margin-top: 15px;
+                font-size: 0.9rem;
+                padding: 10px 16px;
+                display: block;
+                width: 30%;
+                text-align: center;
+                position: relative;
+                top: -28px;
+            }
+        }
+        /* bottom bar */
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px;
+            display: flex;
+            gap: 15px;
+            border: 0.5px solid #FE7600;
+            border-radius: 500px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(9px) saturate(200%);
+        }
+        /* Nav Items */
+        
+        .nav-item {
+            text-decoration: none;
+            color: #FE7800;
+            font-size: 1.5rem;
+            padding: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(255, 255, 255, 1);
+            /* 3D effect */
+        }
+        /* Icon Styling */
+        
+        .nav-item i {
+            font-size: 24px;
+            /* transition: 0.3s; */
+            transition: 0.3s ease-in-out;
+        }
+        /* Hover Effect: Text Appears ABOVE Icon */
+        
+        .nav-item::before {
+            content: attr(data-text);
+            position: absolute;
+            top: -43px;
+            /* Moves text above the icon */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            background: #FE7800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        /* Show text on hover */
+        
+        .nav-item:hover::before {
+            opacity: 1;
+        }
+        
+        .bottom-nav a:hover {
+            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2), inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+            /* Inner shadow for pressed effect */
+            transform: scale(0.95);
+            /* Slight shrink for click effect */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="cards" id="cards">
+            <div class="card" data-service="frontend">
+                <i class="fas fa-code"></i>
+                <h3>Frontend Development</h3>
+            </div>
+            <div class="card" data-service="backend">
+                <i class="fas fa-server"></i>
+                <h3>Backend Development</h3>
+                <p>Django, APIs</p>
+            </div>
+            <div class="card" data-service="deployment">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Deployment</h3>
+                <p>VPS, CI/CD</p>
+            </div>
+            <div class="card" data-service="data">
+                <i class="fas fa-database"></i>
+                <h3>Database</h3>
+                <p>PostgreSQL, Mongo</p>
+            </div>
+            <div class="card" data-service="ai">
+                <i class="fas fa-robot"></i>
+                <h3>AI Tools</h3>
+                <p>AI + Web Fusion</p>
+            </div>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="bottom-nav">
+            <a href="index.html" class="nav-item" data-text="Home">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <a href="about.html" class="nav-item" data-text="About" target="_parent">
+                <i class="fa-solid fa-user"></i>
+            </a>
+            <a href="service_check.html" class="nav-item" data-text="Services">
+                <i class="fa-solid fa-briefcase"></i>
+            </a>
+            <a href="project_check.html" class="nav-item" data-text="Projects">
+                <i class="fa-solid fa-folder"></i>
+            </a>
+            <a href="Resumee_check.html" class="nav-item" data-text="Resume">
+                <i class="fa-solid fa-file"></i>
+            </a>
+            <a href="Contact_check.html" class="nav-item" data-text="Contact">
+                <i class="fa-solid fa-phone"></i>
+            </a>
+        </div>
+
+        <script>
+            const cards = document.querySelectorAll(".card");
+            const container = document.querySelector(".cards");
+
+            // Animate cards one by one on load
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add("show");
+                }, index * 150);
+            });
+
+            cards.forEach((card) => {
+                card.addEventListener("click", () => {
+                    cards.forEach((c) => c.classList.remove("active"));
+                    card.classList.add("active");
+                    container.classList.add("clicked");
+                });
+            });
+
+            // card content
+
+            const cardData = {
+                frontend: {
+                    icon: "fas fa-code",
+                    title: "Frontend Development",
+                    description: "We build stunning, interactive, and modern UIs that adapt to all screen sizes.",
+                    tags: ["Responsive", "SEO", "Interactive", "ReactJS"],
+                    button: "Explore More",
+                },
+                backend: {
+                    icon: "fas fa-server",
+                    title: "Backend Development",
+                    description: "Powerful backend logic & APIs that scale — built with Node.js, Django & more.",
+                    tags: ["Secure", "APIs", "Databases", "Scalable"],
+                    button: "Explore More",
+                },
+                deployment: {
+                    icon: "fas fa-cloud-upload-alt",
+                    title: "Deployment",
+                    description: "Deploy your applications on cloud platforms with CI/CD pipelines.",
+                    tags: ["AWS", "Docker", "CI/CD", "VPS"],
+                    button: "Explore More",
+                },
+                data: {
+                    icon: "fas fa-database",
+                    title: "Database Management",
+                    description: "Manage and optimize your databases for performance and reliability.",
+                    tags: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+                    button: "Explore More",
+                },
+                ai: {
+                    icon: "fas fa-robot",
+                    title: "AI Tools Integration",
+                    description: "Integrate AI tools into your applications for enhanced functionality.",
+                    tags: ["ChatGPT", "ML", "NLP", "Automation"],
+                    button: "Explore More",
+                },
+            };
+
+            const cardsContainer = document.getElementById("cards");
+
+            cardsContainer.addEventListener("click", function(e) {
+                        const clickedCard = e.target.closest(".card");
+                        if (!clickedCard) return;
+
+                        const service = clickedCard.dataset.service;
+                        const data = cardData[service];
+                        if (!data) return;
+
+                        // Remove all active cards first
+                        document.querySelectorAll(".card").forEach((card) => {
+                            card.classList.remove("active");
+                            if (card.dataset.originalContent) {
+                                card.innerHTML = card.dataset.originalContent;
+                            }
+                        });
+
+                        // Save original for restoring
+                        if (!clickedCard.dataset.originalContent) {
+                            clickedCard.dataset.originalContent = clickedCard.innerHTML;
+                        }
+
+                        // Apply active state
+                        clickedCard.classList.add("active");
+                        clickedCard.innerHTML = `
+      <div class="card-icon"><i class="${data.icon}"></i></div>
+      <h3 class="card-title">${data.title}</h3>
+      <p class="card-description">${data.description}</p>
+      <ul class="card-tags">
+        ${data.tags.map((tag) => `<li>${tag}</li>`).join("")}
+      </ul>
+      <button class="card-btn">${data.button}</button>
+    `;
+      });
+        </script>
+</body>
+
+</html>

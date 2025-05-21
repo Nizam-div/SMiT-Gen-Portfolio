@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nizam Ullah - Resume</title>
+    <style>
+         :root {
+            --primary: #ef7800;
+            --secondary: #2d2d2d;
+            --bg: #0a0a0a;
+            --neon-glow: 0 0 15px rgba(239, 120, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: var(--bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .resume-container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 2rem;
+            transform: scale(0.9);
+            transform-origin: top center;
+        }
+        
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        /* Profile Header */
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            grid-column: 1 / -1;
+        }
+        
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            box-shadow: var(--neon-glow);
+            margin: 0 auto 1.5rem;
+            display: block;
+        }
+        
+        .profile-name {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-shadow: var(--neon-glow);
+        }
+        
+        .profile-title {
+            font-size: 1.5rem;
+            color: #fff;
+            opacity: 0.9;
+        }
+        /* Left Column */
+        
+        .left-column {
+            position: relative;
+            padding-right: 2rem;
+        }
+        
+        .about-me {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(239, 120, 0, 0.1);
+        }
+        
+        .contact-info {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 0.8rem;
+            background: rgba(239, 120, 0, 0.05);
+            border-radius: 8px;
+        }
+        
+        .contact-item i {
+            margin-right: 0.8rem;
+            color: var(--primary);
+        }
+        
+        .languages {
+            padding: 1.5rem;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+        }
+        
+        .language-list {
+            list-style: none;
+        }
+        
+        .language-item {
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: rgba(239, 120, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .language-item:hover {
+            transform: translateX(10px);
+        }
+        /* Right Column Timeline */
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), transparent);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            transform: translateX(30px);
+            opacity: 0;
+            transition: all 0.6s ease;
+            border: 1px solid rgba(239, 120, 0, 0.1);
+        }
+        
+        .timeline-item.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 20px;
+            width: 15px;
+            height: 15px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: var(--neon-glow);
+        }
+        
+        h3,
+        h2,
+        p,
+        li {
+            line-height: 1.8;
+        }
+        
+        h3 {
+            color: var(--primary);
+        }
+        
+        p,
+        li {
+            color: #e3e0e0;
+        }
+        
+        .section-heading {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 2rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .download-btn {
+            position: fixed;
+            /* bottom: 2rem; */
+            right: 2rem;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--neon-glow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--primary);
+        }
+        /* bottom bar */
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            padding: 8px;
+            display: flex;
+            gap: 15px;
+            border: 0.5px solid #FE7600;
+            border-radius: 500px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(9px) saturate(200%);
+            margin-bottom: -20px;
+        }
+        /* Nav Items */
+        
+        .nav-item {
+            text-decoration: none;
+            color: #FE7800;
+            font-size: 1.5rem;
+            padding: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 1px 1px 3px white;
+            /* 3D effect */
+        }
+        /* Icon Styling */
+        
+        .nav-item i {
+            font-size: 24px;
+            /* transition: 0.3s; */
+            transition: 0.3s ease-in-out;
+        }
+        /* Hover Effect: Text Appears ABOVE Icon */
+        
+        .nav-item::before {
+            content: attr(data-text);
+            position: absolute;
+            top: -43px;
+            /* Moves text above the icon */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            background: #FE7800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        /* Show text on hover */
+        
+        .nav-item:hover::before {
+            opacity: 1;
+        }
+        
+        .bottom-nav a:hover {
+            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2), inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+            /* Inner shadow for pressed effect */
+            transform: scale(0.95);
+            /* Slight shrink for click effect */
+        }
+        
+        @media (max-width: 768px) {
+            .resume-container {
+                transform: scale(1);
+                margin: 1rem;
+                padding: 1rem;
+            }
+            .resume-grid {
+                grid-template-columns: 1fr;
+            }
+            .timeline {
+                padding-left: 15px;
+            }
+            .timeline-item::before {
+                left: -25px;
+            }
+            .profile-name {
+                font-size: 2rem;
+            }
+            .profile-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <canvas class="particles"></canvas>
+
+    <section class="resume-container">
+        <div class="profile-header">
+            <img src="./0313-9813093.png" class="profile-img" alt="Nizam Ullah">
+            <h1 class="profile-name">Nizam Ullah</h1>
+            <h2 class="profile-title">Senior Frontend Developer</h2>
+        </div>
+
+        <div class="resume-grid">
+            <!-- Left Column -->
+            <div class="left-column">
+                <div class="about-me">
+                    <h2>About Me</h2>
+                    <p>Innovative frontend developer with 5+ years of experience creating immersive web experiences. Passionate about cutting-edge technologies and user-centric design.</p>
+                </div>
+
+                <div class="contact-info">
+                    <h2>Contact</h2>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i> +92 3139813093
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i> nizamdiv3@gmail.com
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i> Peshawar, Pakistan
+                    </div>
+                </div>
+
+                <div class="languages">
+                    <h2>Languages</h2>
+                    <ul class="language-list">
+                        <li class="language-item">Pashto (Native)</li>
+                        <li class="language-item">Urdu (Fluent)</li>
+                        <li class="language-item">English (Professional)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <div class="timeline">
+                    <h3 class="section-heading">Experience</h3>
+                    <div class="timeline-item">
+                        <h3>2025 - Present</h3>
+                        <h2>Senior Frontend Developer</h2>
+                        <p>SMit Solutions • Full-time</p>
+                        <ul>
+                            <li>Lead team of 8 developers</li>
+                            <li>Developed enterprise-level applications</li>
+                            <li>Implemented skills on huge projects </li>
+                        </ul>
+                    </div>
+
+                    <h3 class="section-heading">Education</h3>
+                    <div class="timeline-item">
+                        <h3>2024 - Current</h3>
+                        <h2>BS Computer Science</h2>
+                        <p>Abasyn University</p>
+                        <ul>
+                            <li>GPA: 3.6/4.0</li>
+                            <li>Specialization in Web Development</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3>2022 - 2024</h3>
+                        <h2>FSC Pre-Engineering</h2>
+                        <p>Govnmt Degree College Mathra Peshawar</p>
+                        <ul>
+                            <li>Grade: B</li>
+                            <li>Mathematics & Physics Focus</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3>2020 - 2022</h3>
+                        <h2>Matriculation</h2>
+                        <p>Danish Model School</p>
+                        <ul>
+                            <li>Grade: A</li>
+                            <li>Science & Computer Studies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="download-btn" id="downloadCV">
+            <i class="fas fa-download"></i>
+            Download CV
+        </button>
+
+        <!-- Bottom bar -->
+        <div class="bottom-nav">
+            <a href="index.html" class="nav-item" data-text="Home">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <a href="about.html" class="nav-item" data-text="About" target="_parent">
+                <i class="fa-solid fa-user"></i>
+            </a>
+            <a href="service_check.html" class="nav-item" data-text="Services">
+                <i class="fa-solid fa-briefcase"></i>
+            </a>
+            <a href="project_check.html" class="nav-item" data-text="Projects">
+                <i class="fa-solid fa-folder"></i>
+            </a>
+            <a href="Resumee_check.html" class="nav-item" data-text="Resume">
+                <i class="fa-solid fa-file"></i>
+            </a>
+            <a href="Contact_check.html" class="nav-item" data-text="Contact">
+                <i class="fa-solid fa-phone"></i>
+            </a>
+        </div>
+
+    </section>
+
+    <script>
+        // Particles Animation
+        const canvas = document.querySelector('.particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(239, 120, 0, ${this.size / 2})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles = Array(100).fill().map(() => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Scroll Animations
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        timelineItems.forEach(item => observer.observe(item));
+
+        document.getElementById('downloadCV').addEventListener('click', () => {
+            document.getElementById('downloadCV').addEventListener('click', () => {
+                const link = document.createElement('a');
+                link.href = 'blue-professional-modern-cv.pdf'; // Your renamed file
+                link.download = 'Nizam-Ullah-Resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+
+
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles.forEach(particle => particle.reset());
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Holographic Project Showcase</title>
+    <style>
+         :root {
+            --primary: #ef7800;
+            --neon-glow: 0 0 25px rgba(239, 120, 0, 0.2);
+            --bg: #ffffff;
+            --text: #2d2d2d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text);
+        }
+        
+        .project-carousel {
+            display: flex;
+            height: 100vh;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .project-panel {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+        
+        .project-panel.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hologram-card {
+            position: relative;
+            top: -25px;
+            width: 70%;
+            height: 70%;
+            transform-style: preserve-3d;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1), var(--neon-glow);
+            transform: rotate3d(1, 0, 0, 15deg) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(239, 120, 0, 0.1);
+        }
+        
+        .hologram-card.active {
+            transform: rotate3d(0, 0, 0, 0deg) scale(1);
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+        
+        .hologram-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--primary), transparent 60%);
+            z-index: 0;
+            filter: blur(30px);
+            opacity: 0.1;
+            animation: gradientMove 8s linear infinite;
+        }
+        
+        .card-content {
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .project-media {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            transform: rotate3d(1, 1, 0, 15deg);
+            box-shadow: 0 15px 30px rgba(239, 120, 0, 0.1);
+            transition: transform 0.6s ease-out;
+        }
+        
+        .project-media:hover {
+            transform: rotate3d(1, 1, 0, 5deg);
+        }
+        
+        .project-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        
+        .project-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .project-info h1 {
+            color: var(--primary);
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .project-info h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .project-info p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .tech-item {
+            padding: 12px;
+            background: rgba(239, 120, 0, 0.08);
+            border: 1px solid rgba(239, 120, 0, 0.15);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--primary);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            top: -15px;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(239, 120, 0, 0.15);
+            cursor: pointer;
+        }
+        
+        .tech-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.4s;
+        }
+        
+        .tech-item:hover::before {
+            left: 100%;
+        }
+        
+        .nav-dots {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .nav-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: 2px solid transparent;
+        }
+        
+        .nav-dot.active {
+            background: var(--primary);
+            box-shadow: var(--neon-glow);
+            transform: scale(1.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .nav-dot::after {
+            content: attr(data-project);
+            position: absolute;
+            left: -140px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text);
+            opacity: 0;
+            transition: all 0.4s ease-out;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+        
+        .nav-dot:hover::after {
+            opacity: 1;
+            left: -160px;
+        }
+        
+        @keyframes cardFloat {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+            50% {
+                transform: translateY(5px) rotate(-1deg);
+            }
+            75% {
+                transform: translateY(-5px) rotate(0.5deg);
+            }
+        }
+        
+        @keyframes gradientMove {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Responsive Styles */
+        
+        .view-button {
+            /* margin-top: 15px; */
+            padding: 10px 20px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #f77e05, #872e01);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            position: sticky;
+            bottom: 0;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .view-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        /* Tablet Styles */
+        
+        @media (max-width: 1024px) {
+            .hologram-card {
+                width: 85%;
+                height: 80%;
+            }
+            .card-content {
+                gap: 25px;
+                padding: 30px;
+            }
+            .project-info h1 {
+                font-size: 2.2rem;
+            }
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .nav-dots {
+                right: 20px;
+                gap: 15px;
+            }
+        }
+        /* Mobile Styles */
+        
+        @media (max-width: 768px) {
+            .hologram-card {
+                width: 90%;
+                height: 80%;
+            }
+            .card-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 30px;
+            }
+            .project-media {
+                height: 300px;
+                transform: rotate3d(1, 1, 0, 10deg);
+            }
+            .project-info h1 {
+                font-size: 2rem;
+            }
+            .nav-dots {
+                right: 0;
+                left: 0;
+                top: auto;
+                bottom: 30px;
+                flex-direction: row;
+                justify-content: center;
+            }
+            .nav-dot::after {
+                display: none;
+            }
+        }
+        /* Small Mobile */
+        
+        @media (max-width: 480px) {
+            .hologram-card {
+                width: 95%;
+                height: 90%;
+                border-radius: 12px;
+            }
+            .card-content {
+                padding: 20px;
+                gap: 15px;
+            }
+            .project-media {
+                height: 200px;
+            }
+            .project-info h1 {
+                font-size: 1.6rem;
+            }
+            .project-info p {
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+            .tech-item {
+                padding: 8px;
+                font-size: 0.85rem;
+            }
+            .nav-dots {
+                bottom: 20px;
+                gap: 10px;
+            }
+            .nav-dot {
+                width: 12px;
+                height: 12px;
+            }
+        }
+        /* bottom Navigation */
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px;
+            display: flex;
+            gap: 15px;
+            border: 0.5px solid #fe7600;
+            border-radius: 500px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(9px) saturate(200%);
+        }
+        /* Nav Items */
+        
+        .nav-item {
+            text-decoration: none;
+            color: #fe7800;
+            font-size: 1.5rem;
+            padding: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(255, 255, 255, 1);
+            /* 3D effect */
+        }
+        /* Icon Styling */
+        
+        .nav-item i {
+            font-size: 24px;
+            transition: 0.3s ease-in-out;
+        }
+        /* Hover Effect: Text Appears ABOVE Icon */
+        
+        .nav-item::before {
+            content: attr(data-text);
+            position: absolute;
+            top: -43px;
+            /* Moves text above the icon */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            background: #fe7800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        /* Show text on hover */
+        
+        .nav-item:hover::before {
+            opacity: 1;
+        }
+        
+        .bottom-nav a:hover {
+            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2), inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+            /* Inner shadow for pressed effect */
+            transform: scale(0.95);
+            /* Slight shrink for click effect */
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="project-carousel">
+        <div class="project-panel active">
+            <div class="hologram-card active">
+                <div class="card-content">
+                    <div class="project-media">
+                        <video muted loop autoplay>
+                <source src="./5889055-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+              </video>
+                    </div>
+                    <div class="project-info">
+                        <h1 class="main-content">E-Commerce Platform</h1>
+                        <p>Next-gen shopping experience with AI recommendations</p>
+                        <div class="tech-grid">
+                            <div class="tech-item">React</div>
+                            <div class="tech-item">Node.js</div>
+                            <div class="tech-item">WebGL</div>
+                        </div>
+                        <button class="view-button">Explore Project</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="project-panel active">
+            <div class="hologram-card active">
+                <div class="card-content">
+                    <div class="project-media">
+                        <video muted loop autoplay>
+                <source src="./pocket.mp4" type="video/mp4" />
+                    </div>
+                    <div class="project-info">
+                        <h1 class="main-content">Pocket Website</h1>
+                        <p>A professional website where people can get and save money easily.</p>
+                        <div class="tech-grid">
+                            <div class="tech-item">HTML</div>
+                            <div class="tech-item">CSS</div>
+                            <div class="tech-item">Javascript</div>
+                        </div>
+                        <button class="view-button">Explore Project</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-panel active">
+            <div class="hologram-card active">
+                <div class="card-content">
+                    <div class="project-media">
+                        <video muted loop>
+                <source src="project1.mp4" type="video/mp4" />
+              </video>
+                    </div>
+                    <div class="project-info">
+                        <h1 class="main-content">E-Commerce Platform</h1>
+                        <p>Next-gen shopping experience with AI recommendations</p>
+                        <div class="tech-grid">
+                            <div class="tech-item">React</div>
+                            <div class="tech-item">Node.js</div>
+                            <div class="tech-item">WebGL</div>
+                        </div>
+                        <button class="view-button">Explore Project</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-panel active">
+            <div class="hologram-card active">
+                <div class="card-content">
+                    <div class="project-media">
+                        <video muted loop>
+                <source src="project1.mp4" type="video/mp4" />
+              </video>
+                    </div>
+                    <div class="project-info">
+                        <h1 class="main-content">E-Commerce Platform</h1>
+                        <p>Next-gen shopping experience with AI recommendations</p>
+                        <div class="tech-grid">
+                            <div class="tech-item">React</div>
+                            <div class="tech-item">Node.js</div>
+                            <div class="tech-item">WebGL</div>
+                        </div>
+                        <button class="view-button">Explore Project</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add 3 more panels with same structure -->
+    </div>
+
+    <div class="nav-dots">
+        <div class="nav-dot active" data-project="E-Commerce"></div>
+        <div class="nav-dot" data-project="Pocket Website"></div>
+        <div class="nav-dot" data-project="Analytics"></div>
+        <div class="nav-dot" data-project="Learning"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item" data-text="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="about.html" class="nav-item" data-text="About" target="_parent">
+            <i class="fa-solid fa-user"></i>
+        </a>
+        <a href="service_check.html" class="nav-item" data-text="Services">
+            <i class="fa-solid fa-briefcase"></i>
+        </a>
+        <a href="project_check.html" class="nav-item" data-text="Projects">
+            <i class="fa-solid fa-folder"></i>
+        </a>
+        <a href="Resumee_check.html" class="nav-item" data-text="Resume">
+            <i class="fa-solid fa-file"></i>
+        </a>
+        <a href="Contact_check.html" class="nav-item" data-text="Contact">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        let currentIndex = 0;
+        const carousel = document.querySelector(".project-carousel");
+        const panels = document.querySelectorAll(".project-panel");
+        const cards = document.querySelectorAll(".hologram-card");
+        const dots = document.querySelectorAll(".nav-dot");
+
+        function updateNavigation(index) {
+            // Update active classes
+            panels.forEach((panel) => panel.classList.remove("active"));
+            cards.forEach((card) => card.classList.remove("active"));
+
+
+
+            panels[index].classList.add("active");
+            cards[index].classList.add("active");
+
+            // Animate carousel
+            gsap.to(carousel, {
+                duration: 1.2,
+                x: `-${index * 100}%`,
+                ease: "power3.inOut",
+            });
+
+            // Animate card entrance
+            gsap.fromTo(
+                cards[index], {
+                    rotationX: 15,
+                    scale: 0.9,
+                }, {
+                    duration: 1.2,
+                    rotationX: 0,
+                    scale: 1,
+                    ease: "elastic.out(1, 0.5)",
+                }
+            );
+
+            // Update dots
+            dots.forEach((dot) => dot.classList.remove("active"));
+            dots[index].classList.add("active");
+        }
+
+        // Dot click handling
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                currentIndex = index;
+                updateNavigation(index);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") {
+                currentIndex = (currentIndex + 1) % 4;
+            } else if (e.key === "ArrowLeft") {
+                currentIndex = (currentIndex - 1 + 4) % 4;
+            }
+            updateNavigation(currentIndex);
+        });
+
+        // Touch handling
+        let touchStartX = 0;
+        document.addEventListener("touchstart", (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        document.addEventListener("touchend", (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const delta = touchEndX - touchStartX;
+
+            if (Math.abs(delta) > 50) {
+                if (delta > 0 && currentIndex > 0) {
+                    currentIndex--;
+                } else if (delta < 0 && currentIndex < 3) {
+                    currentIndex++;
+                }
+                updateNavigation(currentIndex);
+            }
+        });
+
+        // Initial animation
+        gsap.from(cards[0], {
+            duration: 1.5,
+            rotationX: 90,
+            opacity: 0,
+            ease: "power4.out",
+        });
+    </script>
+</body>
+
+</html>

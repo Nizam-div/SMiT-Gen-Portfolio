@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* General Reset */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            color: #333;
+        }
+        /* Main About Section */
+        
+        .about-section {
+            display: flex;
+            height: 100vh;
+            width: 98vw;
+        }
+        /* Sidebar Navigation */
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 33%;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tab {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            background: #f4f4f4;
+            border-left: 1px solid #fff;
+        }
+        
+        .tab:hover {
+            background: rgba(254, 120, 0, 0.3);
+        }
+        
+        .tab.active {
+            background: #fe7800;
+            color: white;
+            border-left: 1px solid #fff;
+        }
+        
+        .tab i {
+            font-size: 20px;
+        }
+        /* Main Content */
+        
+        .content-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            margin-left: 220px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+        
+        .content-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Text Section */
+        
+        .text-box {
+            font-size: 20px;
+            max-width: 50%;
+            line-height: 1.7;
+            z-index: 3;
+            font-family: "Poppins, Inter";
+        }
+        /* Picture Section */
+        
+        .picture {
+            width: 570px;
+            height: 500px;
+            background: url("./about Profile.png") center/cover no-repeat;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            z-index: -3;
+        }
+        
+        .picture.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Education Section */
+        
+        .education {
+            max-width: 600px;
+            font-family: "Poppins", sans-serif;
+        }
+        
+        .edu-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .bullet {
+            width: 15px;
+            height: 15px;
+            background-color: #fe7800;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+        
+        .edu-content {
+            margin-left: 15px;
+        }
+        
+        .edu-content h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fe7800;
+        }
+        
+        .edu-content p {
+            font-size: 19px;
+            color: #555;
+            line-height: 1.5;
+        }
+        /* Responsive Design */
+        
+        @media (max-width: 900px) {
+            .about-section {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: sticky;
+                top: 0;
+                flex-direction: row;
+                padding: 6px;
+                white-space: nowrap;
+                background: #f5faff;
+            }
+            .tab {
+                display: inline-flex;
+                justify-content: center;
+                padding: 5px;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .content-container {
+                flex-direction: column;
+                text-align: center;
+                margin-left: 0;
+                padding: 20px;
+            }
+            .text-box {
+                max-width: 100%;
+            }
+            .picture {
+                width: 300px;
+                height: 300px;
+            }
+        }
+        /* About skills circles */
+        
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+            max-width: 600px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .skill {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .outer {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: relative;
+            background: conic-gradient(#ddd 0deg, #ddd 0deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 1.5s ease-in-out;
+        }
+        
+        .inner {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .skill i {
+            font-size: 40px;
+            color: #fe7800;
+            margin-bottom: 5px;
+        }
+        
+        .percent-text {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .skill-name {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        /* about hobbies */
+        
+        .hobbies-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding: 40px;
+            background: #fff9f3;
+            border-radius: 10px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hobby {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            gap: 15px;
+        }
+        
+        .hobby i {
+            font-size: 28px;
+            color: #fe7800;
+        }
+        
+        @media (max-width: 600px) {
+            .skills-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            .outer {
+                width: 120px;
+                height: 120px;
+            }
+            .inner {
+                width: 90px;
+                height: 90px;
+                font-size: 16px;
+            }
+            .skill i {
+                font-size: 30px;
+            }
+            .skill-name {
+                font-size: 16px;
+            }
+        }
+        /* about Experince */
+        
+        .experience-container {
+            padding: 40px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #fe7800;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .timeline {
+            margin-left: 20px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-icon {
+            color: #fe7800;
+            /* Same orange as your theme */
+            font-size: 26px;
+            margin-right: 16px;
+        }
+        
+        .timeline-content h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #222;
+        }
+        
+        .timeline-content .time {
+            font-size: 14px;
+            color: #fe7800;
+            margin-bottom: 6px;
+            display: block;
+        }
+        
+        .timeline-content p {
+            margin: 0;
+            color: #444;
+        }
+        /* Bottom Navigation */
+        /* Bottom Navigation */
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px;
+            display: flex;
+            gap: 15px;
+            border: 0.5px solid #fe7600;
+            border-radius: 500px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(9px) saturate(200%);
+        }
+        /* Nav Items */
+        
+        .nav-item {
+            text-decoration: none;
+            color: #fe7800;
+            font-size: 1.5rem;
+            padding: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(255, 255, 255, 1);
+            /* 3D effect */
+        }
+        /* Icon Styling */
+        
+        .nav-item i {
+            font-size: 24px;
+            transition: 0.3s ease-in-out;
+        }
+        /* Hover Effect: Text Appears ABOVE Icon */
+        
+        .nav-item::before {
+            content: attr(data-text);
+            position: absolute;
+            top: -43px;
+            /* Moves text above the icon */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            background: #fe7800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        /* Show text on hover */
+        
+        .nav-item:hover::before {
+            opacity: 1;
+        }
+        
+        .bottom-nav a:hover {
+            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2), inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+            /* Inner shadow for pressed effect */
+            transform: scale(0.95);
+            /* Slight shrink for click effect */
+        }
+    </style>
+</head>
+
+<body onload="initializePage()">
+    <div class="about-section">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="tab active" onclick="showContent('profile', this)">
+                <i class="fas fa-user"></i> Profile
+            </div>
+            <div class="tab" onclick="showContent('education', this)">
+                <i class="fas fa-graduation-cap"></i> Education
+            </div>
+            <div class="tab" onclick="showContent('experience', this)">
+                <i class="fas fa-briefcase"></i> Experience
+            </div>
+            <div class="tab" onclick="showContent('skills', this)">
+                <i class="fas fa-cogs"></i> Skills
+            </div>
+            <div class="tab" onclick="showContent('hobbies', this)">
+                <i class="fas fa-gamepad"></i> Hobbies
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-container" id="content-container">
+            <div class="text-box" id="content"></div>
+            <div class="picture" id="profile-pic"></div>
+        </div>
+    </div>
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item" data-text="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="about.html" class="nav-item" data-text="About" target="_parent">
+            <i class="fa-solid fa-user"></i>
+        </a>
+        <a href="service_check.html" class="nav-item" data-text="Services">
+            <i class="fa-solid fa-briefcase"></i>
+        </a>
+        <a href="project_check.html" class="nav-item" data-text="Projects">
+            <i class="fa-solid fa-folder"></i>
+        </a>
+        <a href="Resumee_check.html" class="nav-item" data-text="Resume">
+            <i class="fa-solid fa-file"></i>
+        </a>
+        <a href="Contact_check.html" class="nav-item" data-text="Contact">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+    <script>
+        function initializePage() {
+            // Activate profile section by default
+            showContent("profile", document.querySelector(".tab.active"));
+            setTimeout(() => {
+                document.getElementById("content-container").classList.add("show");
+                document.getElementById("profile-pic").classList.add("show");
+            }, 200);
+        }
+
+        function showContent(type, element) {
+            const contentBox = document.getElementById("content");
+            const tabs = document.querySelectorAll(".tab");
+            const contentContainer = document.getElementById("content-container");
+            const profilePic = document.getElementById("profile-pic");
+
+            contentContainer.classList.remove("show");
+            profilePic.classList.remove("show");
+
+            setTimeout(() => {
+                tabs.forEach((tab) => tab.classList.remove("active"));
+                element.classList.add("active");
+
+                let contentHTML = "";
+
+                if (type === "profile") {
+                    contentHTML = `<p>
+                        I am <strong>Nizam Ullah</strong>, a <b>20-year-old computer science student</b> from 
+                        <em>Warsak Road, Pirbala, Peshawar</em>.  
+                        As a <b>Full-Stack Web Developer</b> and <b>MERN Stack Developer</b>, 
+                        I specialize in <b>HTML, CSS, JavaScript, and Python</b>.
+                    </p>
+                    <p>
+                        Passionate about <strong>innovation, problem-solving, and pushing boundaries</strong>, 
+                        I see technology as more than just code—it's a way to <b>shape the future</b>.  
+                        I thrive on <em>hard work, creativity, and lifelong learning</em>. 🚀
+                    </p>`;
+                } else if (type === "education") {
+                    contentHTML = `
+                        <div class="education">
+                            <div class="edu-item">
+                                <span class="bullet"></span>
+                                <div class="edu-content">
+                                    <h3>BS in Science</h3>
+                                    <p>Now enrolled in <strong>BSCS</strong> at <strong>Abasyn University Peshawar</strong> <em> (2024) </em> .</p>
+                                </div>
+                            </div>
+                            <div class="edu-item">
+                                <span class="bullet"></span>
+                                <div class="edu-content">
+                                    <h3>FSc in Science</h3>
+                                    <p>Completed FSc at Government Degree College Mathra Peshawar <strong> (2021-2023) </strong>.</p>
+                                </div>
+                            </div>
+                            <div class="edu-item">
+                                <span class="bullet"></span>
+                                <div class="edu-content">
+                                    <h3>Matric in Science</h3>
+                                    <p>Completed Matric at Danish Model School Garhi Ameer Khan Peshawar <strong> (2020-2021) </strong>.</p>
+                                </div>
+                            </div>
+                        </div>`;
+                } else if (type === "experience") {
+                    contentHTML = `<div class="experience-container">
+  <h2 class="section-title">Experience</h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-icon"><i class="fas fa-laptop-code"></i></div>
+      <div class="timeline-content">
+        <h3>Front-End Developer</h3>
+        <span class="time">2023 – Now</span>
+        <p>Crafting stunning UIs with HTML, CSS, JS & Tailwind.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-icon"><i class="fas fa-layer-group"></i></div>
+      <div class="timeline-content">
+        <h3>Back-End Developer</h3>
+        <span class="time">2023 – Now</span>
+        <p>APIs & Auth with Node.js, Express & MongoDB.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-icon"><i class="fas fa-robot"></i></div>
+      <div class="timeline-content">
+        <h3>AI Explorer</h3>
+        <span class="time">2022 – Now</span>
+        <p>Building smart tools with Python & AI.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+`;
+                } else if (type === "skills") {
+                    contentHTML = `  
+                        <div class="skills-container">
+                            <div class="skill">
+                                <div class="outer" id="js-circle">
+                                    <div class="inner">
+                                        <i class="fab fa-js"></i>
+                                        <span class="percent-text">0%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-name">JavaScript</div>
+                            </div>
+
+                            <div class="skill">
+                                <div class="outer" id="html-circle">
+                                    <div class="inner">
+                                        <i class="fab fa-html5"></i>
+                                        <span class="percent-text">0%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-name">HTML</div>
+                            </div>
+
+                            <div class="skill">
+                                <div class="outer" id="css-circle">
+                                    <div class="inner">
+                                        <i class="fab fa-css3-alt"></i>
+                                        <span class="percent-text">0%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-name">CSS</div>
+                            </div>
+
+                            <div class="skill">
+                                <div class="outer" id="python-circle">
+                                    <div class="inner">
+                                        <i class="fab fa-python"></i>
+                                        <span class="percent-text">0%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-name">Python</div>
+                            </div>
+                        </div>`;
+                } else if (type === "hobbies") {
+                    contentHTML = `<div class="hobbies-section">
+  <div class="hobby">
+    <i class="fas fa-book-reader"></i>
+    <span>Reading for personal growth</span>
+  </div>
+  <div class="hobby">
+    <i class="fas fa-futbol"></i>
+    <span>Football for fitness & fun</span>
+  </div>
+  <div class="hobby">
+    <i class="fas fa-brain"></i>
+    <span>AI research for the future</span>
+  </div>
+  <div class="hobby">
+  <i class="fas fa-code"></i>
+  <span>Web development with passion & precision</span>
+</div>
+</div>
+`;
+                }
+
+                contentBox.innerHTML = contentHTML;
+
+                if (type === "skills") {
+                    setTimeout(animateSkills, 100);
+                }
+
+                setTimeout(() => {
+                    contentContainer.classList.add("show");
+                    profilePic.classList.add("show");
+                }, 100);
+            }, 300);
+        }
+
+        // Skills animation
+        const skills = [{
+            id: "js-circle",
+            percent: 80,
+        }, {
+            id: "html-circle",
+            percent: 90,
+        }, {
+            id: "css-circle",
+            percent: 85,
+        }, {
+            id: "python-circle",
+            percent: 75,
+        }, ];
+
+        function animateSkill(circle, targetPercent) {
+            let currentPercent = 0;
+            const duration = 2000;
+            const increment = targetPercent / (duration / 16);
+            const percentElement =
+                circle.parentElement.querySelector(".percent-text");
+
+            // Reset animation
+            circle.style.background = `conic-gradient(#ddd 0deg, #ddd 0deg)`;
+            percentElement.textContent = "0%";
+
+            const animation = setInterval(() => {
+                currentPercent += increment;
+                const degrees = (currentPercent / 100) * 360;
+
+                if (currentPercent >= targetPercent) {
+                    currentPercent = targetPercent;
+                    clearInterval(animation);
+                }
+
+                circle.style.background = `conic-gradient(#fe7800 ${degrees}deg, #ddd ${degrees}deg)`;
+                percentElement.textContent = `${Math.round(currentPercent)}%`;
+            }, 16);
+        }
+
+        function animateSkills() {
+            skills.forEach((skill) => {
+                const circle = document.getElementById(skill.id);
+                if (circle) animateSkill(circle, skill.percent);
+            });
+        }
+
+        document.querySelectorAll(".nav-item").forEach((item) => {
+            item.addEventListener("click", function(e) {
+                const href = this.getAttribute("href");
+                if (href.startsWith("#")) {
+                    // only prevent for in‑page anchors
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: "smooth",
+                    });
+                }
+                // if it’s a real file like about.html, let it open normally
+            });
+        });
+    </script>
+</body>
+
+</html>
