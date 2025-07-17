@@ -245,4 +245,166 @@ section {
 }
 
 
-/* About Section */
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+    }
+
+    .line1 {
+        font-size: 4.5rem;
+    }
+
+    .line2 {
+        font-size: 3.5rem;
+        margin-left: 40px;
+    }
+
+    .role {
+        font-size: 1.5rem;
+    }
+
+    .profile img {
+        width: 400px;
+    }
+
+    .bottom-nav {
+        gap: 10px;
+        padding: 6px;
+    }
+
+    .nav-item {
+        width: 45px;
+        height: 45px;
+        padding: 12px;
+    }
+
+    .nav-item i {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+        width: 95%;
+    }
+
+    .text {
+        max-width: 100%;
+        align-items: center;
+    }
+
+    .line1 {
+        font-size: 3rem;
+    }
+
+    .line2 {
+        font-size: 2.5rem;
+        margin-left: 0;
+    }
+
+    .role {
+        font-size: 1.2rem;
+    }
+
+    .btn1 {
+        padding: 12px 18px;
+        font-size: 1rem;
+    }
+
+    .profile {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .profile img {
+        width: 300px;
+    }
+
+    .nu-logo {
+        width: 100px;
+        left: 50%;
+        top: 10px;
+    }
+
+    .bottom-nav {
+        gap: 8px;
+        bottom: 15px;
+    }
+
+    .nav-item {
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+    }
+
+    .nav-item i {
+        font-size: 18px;
+    }
+
+    .nav-item::before {
+        font-size: 0.9rem;
+        top: -35px;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .line1 {
+        font-size: 2rem;
+    }
+
+    .line2 {
+        font-size: 1.8rem;
+    }
+
+    .role {
+        font-size: 1rem;
+        margin-top: 8px;
+    }
+
+    .btn1 {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        margin-top: 15px;
+    }
+
+    .profile img {
+        width: 200px;
+    }
+
+    .nu-logo {
+        width: 80px;
+        opacity: 0.2;
+    }
+
+    .bottom-nav {
+        padding: 5px;
+        gap: 5px;
+        border-radius: 50px;
+        bottom: 10px;
+    }
+
+    .nav-item {
+        width: 35px;
+        height: 35px;
+        padding: 8px;
+    }
+
+    .nav-item i {
+        font-size: 16px;
+    }
+
+    .nav-item::before {
+        font-size: 0.8rem;
+        top: -30px;
+        padding: 3px 6px;
+    }
+}
