@@ -319,7 +319,327 @@
             .profile-title {
                 font-size: 1.2rem;
             }
-        }
+        } 
+
+              
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .resume-container {
+        max-width: 900px;
+        margin: 1.5rem auto;
+        padding: 1.5rem;
+        transform: scale(0.95);
+    }
+
+    .resume-grid {
+        grid-template-columns: 250px 1fr;
+        gap: 1.5rem;
+    }
+
+    .profile-img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .profile-name {
+        font-size: 2.2rem;
+    }
+
+    .profile-title {
+        font-size: 1.3rem;
+    }
+
+    .left-column {
+        padding-right: 1.5rem;
+    }
+
+    .about-me,
+    .contact-info,
+    .languages {
+        padding: 1.2rem;
+        border-radius: 12px;
+    }
+
+    .contact-item {
+        padding: 0.6rem;
+        margin: 0.8rem 0;
+    }
+
+    .language-item {
+        padding: 0.6rem;
+        margin: 0.4rem 0;
+    }
+
+    .timeline {
+        padding-left: 25px;
+    }
+
+    .timeline-item {
+        padding: 1.2rem;
+        margin: 1.5rem 0;
+        border-radius: 12px;
+    }
+
+    .timeline-item::before {
+        left: -30px;
+        top: 15px;
+        width: 12px;
+        height: 12px;
+    }
+
+    .section-heading {
+        font-size: 1.3rem;
+        margin: 1.5rem 0 1rem;
+    }
+
+    .download-btn {
+        padding: 0.8rem 1.5rem;
+        bottom: 70px;
+        right: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .bottom-nav {
+        gap: 10px;
+        padding: 6px;
+        bottom: 15px;
+    }
+
+    .nav-item {
+        width: 45px;
+        height: 45px;
+        padding: 12px;
+    }
+
+    .nav-item i {
+        font-size: 20px;
+    }
+
+    .nav-item::before {
+        font-size: 0.9rem;
+        top: -35px;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .resume-container {
+        max-width: 100%;
+        margin: 1rem;
+        padding: 1rem;
+        transform: scale(1);
+    }
+
+    .resume-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .left-column {
+        padding-right: 0;
+    }
+
+    .profile-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-name {
+        font-size: 1.8rem;
+    }
+
+    .profile-title {
+        font-size: 1.2rem;
+    }
+
+    .about-me,
+    .contact-info,
+    .languages {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .contact-item {
+        padding: 0.5rem;
+        margin: 0.6rem 0;
+    }
+
+    .contact-item i {
+        margin-right: 0.6rem;
+    }
+
+    .language-item {
+        padding: 0.5rem;
+        margin: 0.3rem 0;
+    }
+
+    .timeline {
+        padding-left: 20px;
+    }
+
+    .timeline-item {
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 10px;
+    }
+
+    .timeline-item::before {
+        left: -25px;
+        top: 12px;
+        width: 10px;
+        height: 10px;
+    }
+
+    .section-heading {
+        font-size: 1.2rem;
+        margin: 1rem 0 0.8rem;
+    }
+
+    h3,
+    h2,
+    p,
+    li {
+        line-height: 1.6;
+    }
+
+    .download-btn {
+        padding: 0.7rem 1.2rem;
+        bottom: 60px;
+        right: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .bottom-nav {
+        gap: 8px;
+        padding: 5px;
+        bottom: 10px;
+    }
+
+    .nav-item {
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+    }
+
+    .nav-item i {
+        font-size: 18px;
+    }
+
+    .nav-item::before {
+        font-size: 0.8rem;
+        top: -30px;
+        padding: 3px 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .resume-container {
+        margin: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .profile-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-name {
+        font-size: 1.6rem;
+    }
+
+    .profile-title {
+        font-size: 1rem;
+    }
+
+    .about-me,
+    .contact-info,
+    .languages {
+        padding: 0.8rem;
+        border-radius: 8px;
+    }
+
+    .contact-item {
+        padding: 0.4rem;
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+
+    .contact-item i {
+        margin-right: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .language-item {
+        padding: 0.4rem;
+        margin: 0.2rem 0;
+        font-size: 0.9rem;
+    }
+
+    .timeline {
+        padding-left: 15px;
+    }
+
+    .timeline-item {
+        padding: 0.8rem;
+        margin: 0.8rem 0;
+        border-radius: 8px;
+    }
+
+    .timeline-item::before {
+        left: -20px;
+        top: 10px;
+        width: 8px;
+        height: 8px;
+    }
+
+    .section-heading {
+        font-size: 1.1rem;
+        margin: 0.8rem 0 0.6rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    p,
+    li {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .download-btn {
+        padding: 0.6rem 1rem;
+        bottom: 50px;
+        right: 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .bottom-nav {
+        gap: 5px;
+        padding: 4px;
+        bottom: 8px;
+    }
+
+    .nav-item {
+        width: 35px;
+        height: 35px;
+        padding: 8px;
+    }
+
+    .nav-item i {
+        font-size: 16px;
+    }
+
+    .nav-item::before {
+        font-size: 0.7rem;
+        top: -25px;
+        padding: 2px 5px;
+    }
+}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
